@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DJ Admin</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+
+    <script>
+        async function refreshRequests() {
+            const res = await fetch('/get_requests');
+            const data = await res.json();
+            const list = document.getElementById('request-list');
+            list.innerHTML = '';
+
+            const itemsWithIndex = data.map((item, index) => ({ ...item, index }));
+
+            const active = itemsWithIndex.filter(item =>
+                item.status === 'pending' || item.status === 'downloading' || item.status === 'done'
+            );
+
+            const played = itemsWithIndex.filter(item => item.status === 'played');
+
+            const finalList = [...active, ...played];
+
+            finalList.forEach((item, i) => {
+                const card = document.createElement('div');
+                card.className = 'card mb-3 p-3';
+                if (item.status === 'played') card.classList.add('played-card');
+
+                card.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h5 class="mb-1">${item.title}</h5>
+                            <a href="${item.url}" target="_blank">Megnyitás YouTube-on</a>
+                            <span class="badge bg-${statusClass(item.status)} ms-2">${item.status}</span>
+                        </div>
+                        <div class="text-end">
+                            ${item.status === 'pending' ? `<button onclick="download(${item.index})" class="btn btn-sm btn-primary mb-1">Letöltés</button><br>` : ''}
+                            ${item.status !== 'played' ? `<input type="checkbox" onclick="markPlayed(${item.index})" class="form-check-input"> Lejátszva` : ''}
+                        </div>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+        }
+
+        function statusClass(status) {
+            if (status === 'done') return 'success';
+            if (status === 'downloading') return 'warning';
+            if (status === 'error') return 'danger';
+            if (status === 'played') return 'secondary';
+            return 'secondary';
+        }
+
+        async function download(index) {
+            await fetch('/download', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: `index=${index}`
+            });
+        }
+
+        async function markPlayed(index) {
+            await fetch('/mark_played', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+                body: `index=${index}`
+            });
+        }
+
+        async function refreshNowPlaying() {
+            try {
+                const res = await fetch('/nowplaying');
+                const data = await res.json();
+                document.getElementById('nowplaying-box').innerHTML =
+                    `<strong>Most játszott:</strong> ${data.now_playing}`;
+            } catch {
+                document.getElementById('nowplaying-box').innerText =
+                    "Most játszott: (hiba a lekérdezésnél)";
+            }
+        }
+
+        setInterval(() => {
+            refreshRequests();
+            refreshNowPlaying();
+        }, 5000);
+
+        window.onload = () => {
+            refreshRequests();
+            refreshNowPlaying();
+        };
+    </script>
+</head>
+<body class="container mt-4">
+    <div class="alert alert-info" id="nowplaying-box">
+        <strong>Most játszott:</strong> Betöltés...
+    </div>
+
+    <h2 class="mb-4">🎛️ DJ Admin – Beküldött zenék</h2>
+    <div id="request-list"></div>
+</body>
+</html>
