@@ -1,2 +1,37 @@
-# dj-booth
-A simple web-based DJ request system for parties. Guests can search for YouTube tracks and submit song requests, while the DJ manages downloads and playback through an admin panel.
+#dj-booth
+
+A simple web-based DJ request system built with Flask, YouTube scraping, and yt-dlp integration.  
+Designed for house parties and events where guests can submit music requests in real-time.
+
+---
+
+## 🚀 Features
+
+- 🔍 YouTube search interface for guests
+- ✅ Admin panel with download and playback tracking
+- 🎵 "Now Playing" display using VirtualDJ's history log
+- 📥 Download requested tracks as MP3 via yt-dlp
+- 🔁 Real-time request queue with status indicators
+- 💻 Mobile-friendly UI
+- 🎛️ Dark mode by default
+
+---
+
+## 📸 Screenshots
+
+- `assets/guest.png` – Guest view
+- `assets/admin.png` – Admin panel
+
+---
+
+## 🛠️ Installation
+
+### Prerequisites
+
+- Python 3.10+
+- `ffmpeg` installed and available in PATH
+- A `VirtualDJ` installation (for now playing integration)
+- `yt-dlp` installed via pip
+
+```bash
+pip install flask yt-dlp beautifulsoup4 googlesearch-python
