@@ -54,6 +54,12 @@ a {
     border: none;
 }
 
+.modal-content {
+    background-color: #1e1e1e;
+    color: #f1f1f1;
+    border: 1px solid #333;
+}
+
 .badge.bg-success { background-color: #388e3c; }
 .badge.bg-warning { background-color: #fbc02d; color: #000; }
 .badge.bg-danger { background-color: #d32f2f; }
