@@ -38,3 +38,5 @@ Language is Hungarian, feel free to translate.
 
 ```bash
 pip install flask yt-dlp beautifulsoup4 googlesearch-python
+
+☕ If you enjoy this project, consider [buying me a coffee](https://ko-fi.com/pradar123) – it helps a lot!
