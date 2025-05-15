@@ -36,7 +36,9 @@ Language is Hungarian, feel free to translate.
 - A `VirtualDJ` installation (Only for "Now Playing" - VDJ needs to be configured for 5-6s history tracking instead of default 45s) 
 - `yt-dlp` installed via pip
 
+☕ If you enjoy this project, consider [buying me a coffee](https://ko-fi.com/pradar123) – it helps a lot!
+
 ```bash
 pip install flask yt-dlp beautifulsoup4 googlesearch-python
 
-☕ If you enjoy this project, consider [buying me a coffee](https://ko-fi.com/pradar123) – it helps a lot!
+
